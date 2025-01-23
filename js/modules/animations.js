@@ -266,6 +266,8 @@ export function initTextKnockout() {
   });
 }
 
+
+
 function enhanceLayerEffects() {
   gsap.to('.layer-mid', {
     scrollTrigger: {
@@ -295,4 +297,29 @@ export async function initializeAnimations() {
   initParallax();
   initGlitchEffect();
   enhanceLayerEffects();
+}
+export function initScrollAnimations() {
+  const toolzText = document.querySelector('.electric-text');
+
+  if (toolzText) {
+    ScrollTrigger.create({
+      trigger: 'body',
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: (self) => {
+        const scrollPos = self.progress;
+
+        // Scale down to 0.5
+        const scale = 1 - scrollPos * 0.5;
+
+        // Reduce opacity to 0.2
+        const opacity = 1 - scrollPos * 0.8;
+
+        gsap.set(toolzText, {
+          scale: scale,
+          opacity: opacity,
+        });
+      },
+    });
+  }
 }
