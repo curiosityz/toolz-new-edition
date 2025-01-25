@@ -3,6 +3,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+
 export class ProjectsSection {
   constructor() {
     this.projects = [
@@ -42,6 +43,7 @@ export class ProjectsSection {
     this.renderProjects();
     this.initializeAnimations();
     this.initializeInteractions();
+    this.initializeResponsive();
   }
 
   renderProjects() {
@@ -51,24 +53,20 @@ export class ProjectsSection {
     grid.innerHTML = this.projects.map(project => `
       <div class="project-card" data-project="${project.id}">
         <div class="card-content">
-          <div class="card-front">
-            <div class="icon-container" style="--project-color: ${project.color}">
-              ${project.icon}
-            </div>
-            <h3>${project.title}</h3>
-            <div class="tags">
-              ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-            </div>
+          <div class="icon-container" style="--project-color: ${project.color}">
+            ${project.icon}
           </div>
-          <div class="card-back">
-            <p>${project.description}</p>
-            <a href="${project.link}" class="cta-button" style="--project-color: ${project.color}">
-              Learn More
-              <svg viewBox="0 0 24 24">
-                <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-              </svg>
-            </a>
+          <h3>${project.title}</h3>
+          <div class="tags">
+            ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
           </div>
+          <p class="project-description">${project.description}</p>
+          <a href="${project.link}" class="cta-button" style="--project-color: ${project.color}">
+            Learn More
+            <svg viewBox="0 0 24 24">
+              <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+            </svg>
+          </a>
           <div class="card-glow"></div>
         </div>
       </div>
@@ -76,59 +74,130 @@ export class ProjectsSection {
   }
 
   initializeAnimations() {
-    // Animate cards on scroll
-    gsap.from('.project-card', {
-      scrollTrigger: {
-        trigger: '.project-grid',
-        start: 'top center+=100',
-        toggleActions: 'play none none reverse'
-      },
-      y: 100,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.2,
-      ease: 'power3.out'
-    });
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    
+    const setupAnimations = () => {
+      gsap.from('.project-card', {
+        scrollTrigger: {
+          trigger: '.project-grid',
+          start: mediaQuery.matches ? 'top center+=50' : 'top center+=100',
+          toggleActions: 'play none none reverse'
+        },
+        y: mediaQuery.matches ? 30 : 50,
+        opacity: 0,
+        duration: mediaQuery.matches ? 0.4 : 0.6,
+        stagger: mediaQuery.matches ? 0.1 : 0.15,
+        ease: 'power2.out'
+      });
+    };
+
+    setupAnimations();
+    mediaQuery.addListener(setupAnimations);
   }
 
   initializeInteractions() {
-    document.querySelectorAll('.project-card').forEach(card => {
-      // Glow effect on hover
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const glow = card.querySelector('.card-glow');
-        glow.style.background = `radial-gradient(circle at ${x}px ${y}px, var(--glow-color) 0%, transparent 70%)`;
-      });
-
-      // Flip card on hover
-      card.addEventListener('mouseenter', () => {
-        gsap.to(card.querySelector('.card-content'), {
-          rotateY: 180,
-          duration: 0.6,
-          ease: 'power2.inOut'
+    const isDesktop = () => window.matchMedia('(min-width: 1025px)').matches;
+    
+    const cards = document.querySelectorAll('.project-card');
+    
+    cards.forEach(card => {
+      const glow = card.querySelector('.card-glow');
+      
+      if (isDesktop()) {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          glow.style.background = `radial-gradient(circle at ${x}px ${y}px, var(--glow-color) 0%, transparent 70%)`;
         });
-      });
 
-      card.addEventListener('mouseleave', () => {
-        gsap.to(card.querySelector('.card-content'), {
-          rotateY: 0,
-          duration: 0.6,
-          ease: 'power2.inOut'
+        card.addEventListener('mouseleave', () => {
+          glow.style.background = 'none';
         });
-      });
+      }
 
-      // Click animation
       card.addEventListener('click', () => {
+        if (!isDesktop()) return;
         gsap.to(card, {
-          scale: 0.95,
+          scale: 0.98,
           duration: 0.1,
           yoyo: true,
           repeat: 1
         });
       });
+    });
+  
+      this.init();
+    }
+  
+    init() {
+      this.renderProjects();
+      this.initializeAnimations();
+      this.initializeInteractions();
+      // Removed initializeResponsive() call
+    }
+
+  initializeResponsive() {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    
+    const handleResponsive = (e) => {
+      const cards = document.querySelectorAll('.project-card');
+      cards.forEach(card => {
+        const content = card.querySelector('.card-content');
+        const tags = card.querySelector('.tags');
+        const description = card.querySelector('.project-description');
+        const ctaButton = card.querySelector('.cta-button');
+        
+        if (e.matches) {
+          // Mobile view - simplified layout
+          content.style.transform = 'none';
+          content.style.transition = 'transform 0.2s ease';
+          content.style.padding = '1.5rem';
+          content.style.gap = '0.75rem';
+          if (tags) {
+            tags.style.flexWrap = 'wrap';
+            tags.style.justifyContent = 'center';
+            tags.style.gap = '0.5rem';
+          }
+          if (description) {
+            description.style.fontSize = '0.9rem';
+            description.style.lineHeight = '1.4';
+            description.style.margin = '0.5rem 0';
+          }
+          if (ctaButton) {
+            ctaButton.style.padding = '0.5rem 1rem';
+            ctaButton.style.marginTop = '0.5rem';
+          }
+        } else {
+          // Reset styles for larger screens
+          content.style.removeProperty('transform');
+          content.style.removeProperty('transition');
+          content.style.removeProperty('padding');
+          content.style.removeProperty('gap');
+          if (tags) {
+            tags.style.removeProperty('flex-wrap');
+            tags.style.removeProperty('justify-content');
+            tags.style.removeProperty('gap');
+          }
+          if (description) {
+            description.style.removeProperty('font-size');
+            description.style.removeProperty('line-height');
+            description.style.removeProperty('margin');
+          }
+          if (ctaButton) {
+            ctaButton.style.removeProperty('padding');
+            ctaButton.style.removeProperty('margin-top');
+          }
+        }
+      });
+    };
+
+    // Initial check
+    handleResponsive(mediaQuery);
+    mediaQuery.addListener(handleResponsive);
+
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => handleResponsive(mediaQuery), 100);
     });
   }
 }
