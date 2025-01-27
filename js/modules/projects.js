@@ -3,36 +3,58 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-
 export class ProjectsSection {
   constructor() {
     this.projects = [
       {
-        id: 'ai-code',
-        title: 'AI Code Assistant',
-        description: 'Boost your productivity with context-aware code suggestions and automated refactoring powered by state-of-the-art language models.',
+        id: 'ai-assistant',
+        title: 'AI Development Assistant',
+        description: 'Intelligent code completion and refactoring powered by advanced language models',
+        longDescription: 'Boost your productivity with context-aware suggestions, automated refactoring, and intelligent code generation. Seamlessly integrates with your favorite IDE.',
         tags: ['AI', 'Development', 'Productivity'],
-        link: 'https://example.com/ai-code',
+        link: 'https://example.com/ai-assistant',
         color: '#ff4b4b',
-        icon: `<svg viewBox="0 0 24 24"><path fill="currentColor" d="M13.325 3.05L8.667 20.432l1.932.518 4.658-17.382-1.932-.518zM7.612 18.36l1.36-1.448-.001-.108c0-1.216-.995-2.203-2.219-2.203-1.224 0-2.219.987-2.219 2.203 0 1.216.995 2.203 2.219 2.203 1.151 0 2.095-.923 2.196-2.078l-1.336 1.431zm8.776 0l1.36-1.448-.001-.108c0-1.216-.995-2.203-2.219-2.203-1.224 0-2.219.987-2.219 2.203 0 1.216.995 2.203 2.219 2.203 1.151 0 2.095-.923 2.196-2.078l-1.336 1.431z"/></svg>`
+        icon: `<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`
       },
       {
-        id: 'design-gen',
-        title: 'Design Generator',
-        description: 'Transform your ideas into professional designs instantly with our AI-powered design generator. Perfect for mockups, social media, and marketing materials.',
-        tags: ['Design', 'AI', 'Creative'],
-        link: 'https://example.com/design-gen',
+        id: 'creative-suite',
+        title: 'Creative AI Suite',
+        description: 'Transform ideas into stunning visuals with AI-powered design tools',
+        longDescription: 'Generate professional designs, illustrations, and animations with our intuitive AI-powered creative suite. Perfect for designers and content creators.',
+        tags: ['Design', 'Creative', 'AI'],
+        link: 'https://example.com/creative-suite',
         color: '#4a90e2',
         icon: `<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 100-16 8 8 0 000 16zM10.622 8.415l4.879 3.252a.4.4 0 010 .666l-4.88 3.252a.4.4 0 01-.621-.332V8.747a.4.4 0 01.622-.332z"/></svg>`
       },
       {
-        id: 'data-analysis',
-        title: 'Data Analysis Suite',
-        description: 'Turn complex data into actionable insights with our comprehensive analysis suite. Features automated reporting, predictive analytics, and interactive visualizations.',
+        id: 'data-insights',
+        title: 'Data Insights Engine',
+        description: 'Advanced analytics and visualization platform powered by AI',
+        longDescription: 'Turn complex data into actionable insights with our comprehensive analysis suite. Features automated reporting and predictive analytics.',
         tags: ['Analytics', 'Data', 'Business'],
-        link: 'https://example.com/data-analysis',
+        link: 'https://example.com/data-insights',
         color: '#ffa500',
         icon: `<svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 12a7 7 0 1114 0 7 7 0 01-14 0zm7-9a9 9 0 100 18 9 9 0 000-18zm0 4v10l6-5-6-5z"/></svg>`
+      },
+      {
+        id: 'content-forge',
+        title: 'Content Forge',
+        description: 'AI-powered content creation and optimization platform',
+        longDescription: 'Create engaging, SEO-optimized content with our advanced AI writing assistant. Includes translation and tone adaptation features.',
+        tags: ['Content', 'Writing', 'SEO'],
+        link: 'https://example.com/content-forge',
+        color: '#50C878',
+        icon: `<svg viewBox="0 0 24 24"><path fill="currentColor" d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/></svg>`
+      },
+      {
+        id: 'workflow-ai',
+        title: 'Workflow AI',
+        description: 'Intelligent automation for complex business processes',
+        longDescription: 'Streamline your operations with AI-powered workflow automation. Includes process mining and optimization recommendations.',
+        tags: ['Automation', 'Workflow', 'AI'],
+        link: 'https://example.com/workflow-ai',
+        color: '#9B59B6',
+        icon: `<svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14h-2V9h-2V7h4v10z"/></svg>`
       }
     ];
     
@@ -40,164 +62,105 @@ export class ProjectsSection {
   }
 
   init() {
-    this.renderProjects();
-    this.initializeAnimations();
-    this.initializeInteractions();
-    this.initializeResponsive();
-  }
+    // Get project grid element
+    const projectGrid = document.querySelector('.project-grid');
+    if (!projectGrid) {
+      console.error('Project grid element not found');
+      return;
+    }
 
-  renderProjects() {
-    const grid = document.querySelector('.project-grid');
-    if (!grid) return;
-
-    grid.innerHTML = this.projects.map(project => `
+    // Directly render projects
+    projectGrid.innerHTML = this.projects.map(project => `
       <div class="project-card" data-project="${project.id}">
         <div class="card-content">
-          <div class="icon-container" style="--project-color: ${project.color}">
-            ${project.icon}
+          <div class="card-front">
+            <div class="icon-container" style="--project-color: ${project.color}">
+              ${project.icon}
+            </div>
+            <h3>${project.title}</h3>
+            <p class="card-description">${project.description}</p>
+            <div class="tags">
+              ${project.tags.map(tag => `<span class="tag" style="border-color: ${project.color}">${tag}</span>`).join('')}
+            </div>
           </div>
-          <h3>${project.title}</h3>
-          <div class="tags">
-            ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+          <div class="card-back">
+            <p>${project.longDescription}</p>
+            <a href="${project.link}" class="cta-button" style="--project-color: ${project.color}">
+              Learn More
+              <svg viewBox="0 0 24 24">
+                <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+              </svg>
+            </a>
           </div>
-          <p class="project-description">${project.description}</p>
-          <a href="${project.link}" class="cta-button" style="--project-color: ${project.color}">
-            Learn More
-            <svg viewBox="0 0 24 24">
-              <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-            </svg>
-          </a>
-          <div class="card-glow"></div>
         </div>
+        <div class="card-glow"></div>
       </div>
     `).join('');
+
+    // Initialize interactions after rendering
+    this.initializeInteractions();
+    this.initializeAnimations();
   }
 
   initializeAnimations() {
-    const mediaQuery = window.matchMedia('(max-width: 768px)');
-    
-    const setupAnimations = () => {
-      gsap.from('.project-card', {
-        scrollTrigger: {
-          trigger: '.project-grid',
-          start: mediaQuery.matches ? 'top center+=50' : 'top center+=100',
-          toggleActions: 'play none none reverse'
-        },
-        y: mediaQuery.matches ? 30 : 50,
-        opacity: 0,
-        duration: mediaQuery.matches ? 0.4 : 0.6,
-        stagger: mediaQuery.matches ? 0.1 : 0.15,
-        ease: 'power2.out'
-      });
-    };
-
-    setupAnimations();
-    mediaQuery.addListener(setupAnimations);
+    // Animate cards on scroll
+    gsap.from('.project-card', {
+      scrollTrigger: {
+        trigger: '.project-grid',
+        start: 'top center+=100',
+        toggleActions: 'play none none reverse'
+      },
+      y: 100,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: 'power3.out'
+    });
   }
 
   initializeInteractions() {
-    const isDesktop = () => window.matchMedia('(min-width: 1025px)').matches;
-    
-    const cards = document.querySelectorAll('.project-card');
-    
-    cards.forEach(card => {
-      const glow = card.querySelector('.card-glow');
-      
-      if (isDesktop()) {
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          glow.style.background = `radial-gradient(circle at ${x}px ${y}px, var(--glow-color) 0%, transparent 70%)`;
-        });
+    document.querySelectorAll('.project-card').forEach(card => {
+      // Glow effect on hover
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-        card.addEventListener('mouseleave', () => {
-          glow.style.background = 'none';
-        });
-      }
-
-      card.addEventListener('click', () => {
-        if (!isDesktop()) return;
-        gsap.to(card, {
-          scale: 0.98,
-          duration: 0.1,
-          yoyo: true,
-          repeat: 1
+        const glow = card.querySelector('.card-glow');
+        gsap.to(glow, {
+          opacity: 0.8,
+          background: `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.2) 0%, transparent 70%)`,
+          duration: 0.3
         });
       });
-    });
-  
-      this.init();
-    }
-  
-    init() {
-      this.renderProjects();
-      this.initializeAnimations();
-      this.initializeInteractions();
-      // Removed initializeResponsive() call
-    }
 
-  initializeResponsive() {
-    const mediaQuery = window.matchMedia('(max-width: 768px)');
-    
-    const handleResponsive = (e) => {
-      const cards = document.querySelectorAll('.project-card');
-      cards.forEach(card => {
-        const content = card.querySelector('.card-content');
-        const tags = card.querySelector('.tags');
-        const description = card.querySelector('.project-description');
-        const ctaButton = card.querySelector('.cta-button');
-        
-        if (e.matches) {
-          // Mobile view - simplified layout
-          content.style.transform = 'none';
-          content.style.transition = 'transform 0.2s ease';
-          content.style.padding = '1.5rem';
-          content.style.gap = '0.75rem';
-          if (tags) {
-            tags.style.flexWrap = 'wrap';
-            tags.style.justifyContent = 'center';
-            tags.style.gap = '0.5rem';
-          }
-          if (description) {
-            description.style.fontSize = '0.9rem';
-            description.style.lineHeight = '1.4';
-            description.style.margin = '0.5rem 0';
-          }
-          if (ctaButton) {
-            ctaButton.style.padding = '0.5rem 1rem';
-            ctaButton.style.marginTop = '0.5rem';
-          }
-        } else {
-          // Reset styles for larger screens
-          content.style.removeProperty('transform');
-          content.style.removeProperty('transition');
-          content.style.removeProperty('padding');
-          content.style.removeProperty('gap');
-          if (tags) {
-            tags.style.removeProperty('flex-wrap');
-            tags.style.removeProperty('justify-content');
-            tags.style.removeProperty('gap');
-          }
-          if (description) {
-            description.style.removeProperty('font-size');
-            description.style.removeProperty('line-height');
-            description.style.removeProperty('margin');
-          }
-          if (ctaButton) {
-            ctaButton.style.removeProperty('padding');
-            ctaButton.style.removeProperty('margin-top');
-          }
-        }
+      card.addEventListener('mouseleave', () => {
+        const glow = card.querySelector('.card-glow');
+        gsap.to(glow, {
+          opacity: 0,
+          duration: 0.3
+        });
       });
-    };
 
-    // Initial check
-    handleResponsive(mediaQuery);
-    mediaQuery.addListener(handleResponsive);
+      // Flip animation on hover
+      card.addEventListener('mouseenter', () => {
+        gsap.to(card.querySelector('.card-content'), {
+          rotateY: 180,
+          duration: 0.6,
+          ease: 'power2.inOut'
+        });
+      });
 
-    window.addEventListener('orientationchange', () => {
-      setTimeout(() => handleResponsive(mediaQuery), 100);
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card.querySelector('.card-content'), {
+          rotateY: 0,
+          duration: 0.6,
+          ease: 'power2.inOut'
+        });
+      });
     });
   }
 }
+
+// Create and export a default instance
+export const projectsSection = new ProjectsSection();

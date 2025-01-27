@@ -1,8 +1,10 @@
+// Import necessary modules
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import * as THREE from 'three';
 import TWEEN from '@tweenjs/tween.js';
 
+// Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 // Hero Animation Timeline
@@ -53,27 +55,6 @@ export function createHeroTimeline() {
     ease: 'none'
   }, '-=0.5');
   
-  // Add text knockout initialization
-  initTextKnockout();
-  
-  // Initialize electric effect
-  initElectricEffect();
-  
-  // Add effects to layer-mid
-  tl.to('.layer-mid', {
-    rotation: -360,
-    scale: 1.1,
-    duration: 30,
-    ease: 'none',
-    repeat: -1
-  }, 0)
-  .to('.layer-mid', {
-    filter: 'blur(3px) contrast(1.4) hue-rotate(360deg)',
-    duration: 20,
-    ease: 'none',
-    repeat: -1
-  }, 0);
-  
   return tl;
 }
 
@@ -84,36 +65,17 @@ export function initParallax() {
   layers.forEach((layer) => {
     const speed = layer.dataset.speed || 0.1;
     
-    // Create more complex animation for mid layer
-    if (layer.classList.contains('layer-mid')) {
-      gsap.to(layer, {
-        y: `${-100 * speed}%`,
-        rotation: -360, // Full rotation
-        skewX: 0.1,
-        scale: 1.0001,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-          invalidateOnRefresh: true
-        }
-      });
-    } else {
-      // Standard parallax for other layers
-      gsap.to(layer, {
-        y: `${-100 * speed}%`,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-          invalidateOnRefresh: true
-        }
-      });
-    }
+    gsap.to(layer, {
+      y: `${-100 * speed}%`,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+        invalidateOnRefresh: true
+      }
+    });
   });
 }
 
@@ -154,172 +116,40 @@ export function initGlitchEffect() {
   createGlitch();
 }
 
-function initElectricEffect() {
-  // Animate electric lines
-  gsap.to('.electric-line', {
-    strokeDashoffset: 0,
-    strokeDasharray: '1500 1500',
-    opacity: 0.5,
-    duration: 2,
-    stagger: 0.2,
-    repeat: -1,
-    ease: 'power2.inOut'
-  });
-
-  // Create distortion effect
-  gsap.to('.electric-text', {
-    duration: 0.1,
-    skewX: 'random(-2, 2)',
-    skewY: 'random(-1, 1)',
-    repeat: -1,
-    repeatRefresh: true
-  });
-
-  // Transition effect
+// Scale Down TOOLZ Text on Scroll
+export function scaleDownToolzOnScroll() {
   ScrollTrigger.create({
     trigger: '.hero',
     start: 'top top',
-    end: 'bottom top',
+    end: 'bottom center',
     scrub: 1,
     onUpdate: (self) => {
+      const progress = self.progress;
+      
+      // Scale and fade the TOOLZ text
       gsap.to('.electric-container', {
-        y: self.progress * -200,
-        scale: 1 - self.progress * 0.3,
-        opacity: 1 - self.progress,
-        duration: 0
+        scale: Math.max(0.5, 1 - (progress * 0.5)),
+        y: progress * -200,
+        opacity: Math.max(0.2, 1 - progress),
+        duration: 0.1,
+        ease: 'none'
       });
-      
-      gsap.to('.section-transition', {
-        scaleY: self.progress,
-        duration: 0
-      });
-      
-      // Intensify electric effect during scroll
-      const intensity = 1 + self.progress * 2;
-      gsap.to('.electric-text::before, .electric-text::after', {
-        filter: `blur(${0.5 * intensity}px)`,
-        textShadow: `0 0 ${20 * intensity}px var(--primary-color)`,
-        duration: 0
+
+      // Additional text properties adjustment
+      gsap.to('.electric-text', {
+        filter: `blur(${progress * 2}px)`,
+        duration: 0.1,
+        ease: 'none'
       });
     }
   });
 }
 
-// Text Knockout Effect
-export function initTextKnockout() {
-  // Split text into characters
-  const text = document.querySelector('.text-knockout');
-  const chars = text.textContent.split('');
-  
-  text.innerHTML = chars.map(char => 
-    `<span class="text-knockout-char">${char}</span>`
-  ).join('');
-  
-  // Create timeline for initial appearance
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: '.hero',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: 1
-    }
-  });
-  
-  // Initial reveal animation
-  gsap.from('.text-knockout', {
-    opacity: 0,
-    duration: 1,
-    delay: 0.5,
-    ease: 'power2.out'
-  });
-  
-  // Add characters to timeline
-  const charsArray = gsap.utils.toArray('.text-knockout-char');
-  
-  tl.to(charsArray, {
-    y: gsap.utils.wrap([-100, 100, -50, 50, -75, 75]),
-    rotation: gsap.utils.wrap([-360, 360, -180, 180, -90, 90]),
-    opacity: gsap.utils.wrap([0.2, 0.5, 0.8, 1]),
-    duration: 1,
-    stagger: {
-      each: 0.1,
-      from: "random"
-    }
-  })
-  .to('.text-knockout', {
-    scale: 2,
-    opacity: 0,
-    duration: 1
-  }, ">");
-  
-  // Add hover effect
-  document.addEventListener('mousemove', (e) => {
-    const mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
-    const mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
-    
-    gsap.to('.text-knockout', {
-      x: mouseX,
-      y: mouseY,
-      rotation: mouseX * 0.05,
-      duration: 0.5
-    });
-  });
-}
-
-
-
-function enhanceLayerEffects() {
-  gsap.to('.layer-mid', {
-    scrollTrigger: {
-      trigger: '.hero',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: 1,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        const scale = 1 + (progress * 0.2);
-        const rotation = -360 * progress;
-        const blur = 5 + (progress * 5);
-        const contrast = 1.2 + (progress * 0.3);
-        
-        gsap.set('.layer-mid', {
-          scale: scale,
-          rotation: rotation,
-          filter: `blur(${blur}px) contrast(${contrast})`,
-        });
-      }
-    }
-  });
-}
-
+// Initialize animations
 export async function initializeAnimations() {
   const heroTimeline = createHeroTimeline();
   initParallax();
   initGlitchEffect();
-  enhanceLayerEffects();
-}
-export function initScrollAnimations() {
-  const toolzText = document.querySelector('.electric-text');
-
-  if (toolzText) {
-    ScrollTrigger.create({
-      trigger: 'body',
-      start: 'top top',
-      end: 'bottom bottom',
-      onUpdate: (self) => {
-        const scrollPos = self.progress;
-
-        // Scale down to 0.5
-        const scale = 1 - scrollPos * 0.5;
-
-        // Reduce opacity to 0.2
-        const opacity = 1 - scrollPos * 0.8;
-
-        gsap.set(toolzText, {
-          scale: scale,
-          opacity: opacity,
-        });
-      },
-    });
-  }
+  scaleDownToolzOnScroll();
+  heroTimeline.play();
 }
